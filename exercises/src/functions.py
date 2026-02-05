@@ -32,7 +32,8 @@ Example:
 
 def calculate_area(width: float, height: float) -> float:
     # TODO: Implement this function
-    pass
+    return width*height
+pass
 
 
 # =============================================================================
@@ -59,7 +60,8 @@ Example:
 def format_price(amount: float, currency: str = "$", decimals: int = 2) -> str:
     # TODO: Implement this function
     # Hint: Use round() and f-strings
-    pass
+   return f"format_price{currency}{round(amount,decimals)}"
+pass
 
 
 # =============================================================================
@@ -87,7 +89,10 @@ Example:
 def find_max(*args) -> float:
     # TODO: Implement this function
     # Hint: Check if args is empty first
-    pass
+    if not args:
+        raise ValueError("At least one value is required")
+    return max(*args)
+pass
 
 
 # =============================================================================
@@ -112,7 +117,13 @@ Example:
 def build_tag(tag_name: str, **kwargs) -> str:
     # TODO: Implement this function
     # Hint: Loop through kwargs.items() to build attribute string
-    pass
+    htmltag=f"<{tag_name}"
+
+    for key, value in kwargs.items():
+       htmltag+=f'{key}="{value}"'
+    htmltag+=">"
+    return htmltag
+pass
 
 
 # =============================================================================
@@ -140,6 +151,9 @@ Example:
 
 def send_notification(recipient: str, message: str, *cc, **options) -> dict:
     # TODO: Implement this function
+    notify="{"
+    notify+=f'"to":"{recipient}", "message":"{message}"'
+    if
     pass
 
 
