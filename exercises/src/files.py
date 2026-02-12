@@ -69,9 +69,10 @@ def read_lines(filepath: str) -> list:
     # Hint: Use strip() on each line to remove newlines
     with open(filepath, "r", encoding="utf-8") as f:
         all_lines=f.readlines()
+        lines_fixed=[]
         for line in all_lines:
-            line=line.strip()
-        return all_lines
+            lines_fixed.append(line.strip())
+        return lines_fixed
 
 
 # =============================================================================
@@ -99,7 +100,7 @@ def append_line(filepath: str, line: str) -> None:
     # TODO: Implement this function
     # Hint: Use "a" mode for append
     with open(filepath, "a", encoding="utf-8" )as f:
-        f.write(line)
+        f.write(line+ "\n")
 
 
 
@@ -240,14 +241,14 @@ Example:
     todo_list.get_pending()                # Returns [{"id": 2, "task": "Walk the dog", "done": False}]
 """
 
+
 class TodoList:
     def __init__(self, filepath: str):
         self.filepath = filepath
-        # TODO: Load existing todos from file, or initialize empty list
-        with open(self.filepath, "r", encoding="utf-8") as f:
-         self.todos = json.load(f)
-        if not self.todos:
-        # Hint: Use try/except to handle file not existing
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as f:
+                self.todos = json.load(f)
+        except FileNotFoundError:
             self.todos = []
 
     def _save(self) -> None:
@@ -264,15 +265,15 @@ class TodoList:
         if not self.todos:
             return 1
         else:
-            return max(todos["id"] for todos in self.todos)+1
+            return max(todo["id"] for todo in self.todos)+1
 
 
     def add(self, task: str) -> int:
         # TODO: Create new todo, add to list, save, return id
          todoid=self._next_id()
-         todo={"id":todoid, "task":task,"done": {False}}
+         todo={"id":todoid, "task":task,"done": False}
          self.todos.append(todo)
-         save_json(self.filepath,self.todos)
+         self._save()
          return todoid
 
     def complete(self, todo_id: int) -> bool:
@@ -281,7 +282,7 @@ class TodoList:
         for todos in self.todos:
             if todos["id"]==todo_id:
                 todos["done"]=True
-                save_json(self.filepath,self.todos)
+                self._save()
                 return True
 
         return False
@@ -297,10 +298,8 @@ class TodoList:
 
     def get_all(self) -> list:
         # TODO: Return all todos
-        todo_list=[]
-        for todos in self.todos:
-            todo_list.append(todos)
-        return todo_list
+
+        return self.todos
 
 
 
