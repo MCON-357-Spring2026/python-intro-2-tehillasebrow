@@ -60,7 +60,7 @@ Example:
 def format_price(amount: float, currency: str = "$", decimals: int = 2) -> str:
     # TODO: Implement this function
     # Hint: Use round() and f-strings
-   return f"format_price{currency}{round(amount,decimals)}"
+   return f"{currency}{round(amount,decimals)}"
 
 
 
@@ -120,7 +120,7 @@ def build_tag(tag_name: str, **kwargs) -> str:
     htmltag=f"<{tag_name}"
 
     for key, value in kwargs.items():
-       htmltag+=f'{key}="{value}"'
+       htmltag+=f' {key}="{value}"'
     htmltag+=">"
     return htmltag
 
