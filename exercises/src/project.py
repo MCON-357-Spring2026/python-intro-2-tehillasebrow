@@ -17,6 +17,9 @@ Run with: python exercise_4_project.py
 import json
 import os
 from datetime import datetime
+from traceback import format_tb
+
+from coverage.files import actual_path
 
 
 # =============================================================================
@@ -40,6 +43,8 @@ def format_date(dt: datetime = None) -> str:
 
 
 def generate_id(prefix: str, existing_ids: list) -> str:
+    new_id=prefix+"_"+(max(existing_ids)+1)
+    return new_id
     """
     Generate a new unique ID with the given prefix.
 
@@ -56,11 +61,28 @@ def generate_id(prefix: str, existing_ids: list) -> str:
     """
     # TODO: Implement this function
     # Hint: Find the highest existing number and add 1
-    pass
+
 
 
 def search_items(items: list, **criteria) -> list:
-    """
+    results=[]
+    for item in items:
+        match=True
+        for key, expected in criteria.items():
+            actual=item.get(key)
+            if isinstance(actual, str) and isinstance(expected, str):
+                if actual.lower() != expected.lower():
+                  match = False
+                  break
+            else:
+                if actual != expected:
+                    match = False
+                    break
+            if match:
+                    results.append(item)
+
+    return results
+"""
     Search a list of dictionaries by matching criteria.
     Uses **kwargs to accept any search fields.
 
@@ -82,7 +104,8 @@ def search_items(items: list, **criteria) -> list:
     """
     # TODO: Implement this function
     # Hint: For each item, check if ALL criteria match
-    pass
+
+
 
 
 # =============================================================================
