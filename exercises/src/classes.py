@@ -93,7 +93,7 @@ class BankAccount:
         self.owner=owner
         self.balance=balance
         # TODO: Increment total_accounts
-        self.total_accounts+=1
+        BankAccount.total_accounts+=1
 
 
     def deposit(self, amount: float) -> float:
@@ -113,7 +113,7 @@ class BankAccount:
 
     def get_info(self) -> str:
         # TODO: Return string like "Account A001 (Alice): $100.00"
-       return f"BankAccount {self}"
+       return f"Bank Account {self.account_number} ${self.balance} ({self.owner})"
 
 
 # =============================================================================
@@ -259,10 +259,8 @@ class Developer(Employee):
         # TODO: Call parent constructor with super()
         super().__init__(name, employee_id,base_salary)
         # TODO: Initialize programming_languages (use empty list if None)
-        if self.programming_languages =None :
-            self.programming_languages=[]
-        else:
-            self.programming_languages=programming_languages
+
+        self.programming_languages=programming_languages or []
 
 
     def add_language(self, language: str) -> None:

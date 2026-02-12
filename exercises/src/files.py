@@ -14,6 +14,7 @@ Run with: python exercise_3_files_json.py
 import json
 import os
 
+from demo.demo import content
 
 # =============================================================================
 # EXERCISE 3.1: Writing to a File
@@ -39,7 +40,9 @@ Example:
 
 def write_lines(filepath: str, lines: list) -> None:
     # TODO: Implement this function
-    pass
+    with open(filepath,"w", encoding="utf-8") as f:
+        for line in lines:
+            f.write(line+ "\n")
 
 
 # =============================================================================
@@ -64,7 +67,11 @@ Example:
 def read_lines(filepath: str) -> list:
     # TODO: Implement this function
     # Hint: Use strip() on each line to remove newlines
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+        all_lines=f.readlines()
+        for line in all_lines:
+            line=line.strip()
+        return all_lines
 
 
 # =============================================================================
@@ -91,7 +98,9 @@ Example:
 def append_line(filepath: str, line: str) -> None:
     # TODO: Implement this function
     # Hint: Use "a" mode for append
-    pass
+    with open(filepath, "a", encoding="utf-8" )as f:
+        f.write(line)
+
 
 
 # =============================================================================
@@ -116,7 +125,9 @@ Example:
 def count_words(filepath: str) -> int:
     # TODO: Implement this function
     # Hint: Read the file, split on whitespace, count the parts
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+       contents= f.read()
+    return  len(contents.split())
 
 
 # =============================================================================
