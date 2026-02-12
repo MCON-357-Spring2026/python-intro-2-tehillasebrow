@@ -269,21 +269,38 @@ class TodoList:
 
     def add(self, task: str) -> int:
         # TODO: Create new todo, add to list, save, return id
-
-        pass
+         todoid=self._next_id()
+         todo={"id":todoid, "task":task,"done": {False}}
+         self.todos.append(todo)
+         save_json(self.filepath,self.todos)
+         return todoid
 
     def complete(self, todo_id: int) -> bool:
         # TODO: Find todo by id, set done=True, save, return True
         # Return False if not found
-        pass
+        for todos in self.todos:
+            if todos["id"]==todo_id:
+                todos["done"]=True
+                save_json(self.filepath,self.todos)
+                return True
+
+        return False
+
 
     def get_pending(self) -> list:
         # TODO: Return todos where done=False
-        pass
+        todo_list=[]
+        for todos in self.todos:
+            if todos["done"]==False:
+                todo_list.append(todos)
+        return todo_list
 
     def get_all(self) -> list:
         # TODO: Return all todos
+        todo_list=[]
+        for todos in self.todos:
+            todo_list.append(todos)
+        return todo_list
 
-        pass
 
 
