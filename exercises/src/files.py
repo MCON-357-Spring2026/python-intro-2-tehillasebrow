@@ -14,7 +14,7 @@ Run with: python exercise_3_files_json.py
 import json
 import os
 
-from demo.demo import content
+from demo.demo import content, loaded_data
 
 # =============================================================================
 # EXERCISE 3.1: Writing to a File
@@ -153,7 +153,9 @@ Example:
 
 def save_json(filepath: str, data: dict) -> None:
     # TODO: Implement this function
-    pass
+# Write to JSON file
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
 
 
 # =============================================================================
@@ -175,7 +177,9 @@ Example:
 
 def load_json(filepath: str) -> dict:
     # TODO: Implement this function
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+     loadeddata = json.load(f)
+    return loadeddata
 
 
 # =============================================================================
@@ -201,8 +205,10 @@ Example:
 
 def update_json(filepath: str, **updates) -> None:
     # TODO: Implement this function
-    pass
-
+    jsonfile=load_json(filepath)
+    for key, value in updates.items():
+        jsonfile[key]=value
+    save_json(filepath,jsonfile)
 
 # =============================================================================
 # EXERCISE 3.8: Todo List Manager
@@ -238,21 +244,32 @@ class TodoList:
     def __init__(self, filepath: str):
         self.filepath = filepath
         # TODO: Load existing todos from file, or initialize empty list
+        with open(self.filepath, "r", encoding="utf-8") as f:
+         self.todos = json.load(f)
+        if not self.todos:
         # Hint: Use try/except to handle file not existing
-        self.todos = []
+            self.todos = []
 
     def _save(self) -> None:
         """Helper method to save todos to file."""
         # TODO: Save self.todos to self.filepath as JSON
-        pass
+        with open(self.filepath, "w", encoding="utf-8") as f:
+            json.dump(self.todos, f, indent=2)
+
+
 
     def _next_id(self) -> int:
         """Helper method to get the next available ID."""
         # TODO: Return max id + 1, or 1 if no todos exist
-        pass
+        if not self.todos:
+            return 1
+        else:
+            return max(todos["id"] for todos in self.todos)+1
+
 
     def add(self, task: str) -> int:
         # TODO: Create new todo, add to list, save, return id
+
         pass
 
     def complete(self, todo_id: int) -> bool:
@@ -266,6 +283,7 @@ class TodoList:
 
     def get_all(self) -> list:
         # TODO: Return all todos
+
         pass
 
 
