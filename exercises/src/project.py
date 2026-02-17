@@ -44,9 +44,11 @@ def format_date(dt: datetime = None) -> str:
 
 
 def generate_id(prefix: str, existing_ids: list) -> str:
-    new_id=prefix+"_"+(max(existing_ids)+1)
-    return new_id
-    """
+    next_num = len(existing_ids) + 1
+    return f"{prefix}_{next_num:04d}"
+
+
+"""
     Generate a new unique ID with the given prefix.
 
     Parameters:

@@ -91,7 +91,7 @@ def find_max(*args) -> float:
     # Hint: Check if args is empty first
     if not args:
         raise ValueError("At least one value is required")
-    return max(*args)
+    return max(args)
 
 
 
@@ -153,12 +153,11 @@ def send_notification(recipient: str, message: str, *cc, **options) -> dict:
     # TODO: Implement this function
     notify={
         "to": recipient,
-        "message": message
+        "message": message,
+        "cc": list(cc),
+        "options": dict(options) if options else {}
     }
-    if cc:
-        notify["cc"]=list(cc)
-    if options:
-        notify.update(options)
+
     return notify
 
 
