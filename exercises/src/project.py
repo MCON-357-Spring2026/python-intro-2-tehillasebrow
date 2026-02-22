@@ -283,11 +283,16 @@ class Library:
         # Hint: Use try/except to handle files not existing
         try:
             with open(self.books_file, "r", encoding="utf-8") as f:
-                json.load(f)
-                with open(self.borrowers_file, "r", encoding="utf-8") as h:
-                 json.load(h)
+                book_list=json.load(f)
+                self.books={b["book_id"]: Book.from_dict(b) for b in book_list}
         except:
-            raise FileNotFoundError("File not found.")
+            self.books = {}  # initialize empty dict if file not found
+        try:
+                with open(self.borrowers_file, "r", encoding="utf-8") as h:
+                 borrowers_list=json.load(h)
+                 self.borrowers={b["borrower_id"]: Borrower.from_dict(b) for b in borrowers_list}
+        except:
+            self.borrowers = {}
 
     def save(self) -> None:
         """Save books and borrowers to JSON files."""
