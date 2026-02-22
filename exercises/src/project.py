@@ -44,6 +44,8 @@ def format_date(dt: datetime = None) -> str:
 
 
 def generate_id(prefix: str, existing_ids: list) -> str:
+    if existing_ids is None:
+        existing_ids=[]
     next_num = len(existing_ids) + 1
     return f"{prefix}_{next_num:04d}"
 
