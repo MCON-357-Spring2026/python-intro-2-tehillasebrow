@@ -308,8 +308,10 @@ class Library:
         """Add a new book to the library."""
         # TODO: Generate new book_id using generate_id
         # TODO: Create Book, add to self.books, save, and return
-        new_id=generate_id(title,self.books.get("book_id"))
+        new_id=generate_id(title,list(self.books.keys()))
         b=Book(new_id,title,author,genre,True)
+        self.books[new_id]=b
+        self.save()
         return b
 
     def add_borrower(self, name: str, email: str) -> Borrower:
