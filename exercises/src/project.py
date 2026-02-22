@@ -162,7 +162,7 @@ class Book:
         data.get("title")
         data.get("author")
         data.get("genre")
-        data.get("available")
+        data.get("available", True)
         b=Book(data.get("book_id"),data.get("title"),data.get("author"),data.get("available"), data.get("genre") )
         return b
 
