@@ -347,7 +347,7 @@ class Library:
         if not borrower.can_borrow():
             return False
         book.available=False
-        borrower.borrow_books(book_id)
+        borrower.borrow_book(book_id)
         self.save()
         return True
 
@@ -363,9 +363,9 @@ class Library:
         # TODO: Save and return True
         book=self.books.get(book_id)
         borrower=self.borrowers.get(borrower_id)
-        if book or borrower is None:
+        if book is None or borrower is None:
             return False
-        if borrower.return_books(book_id):
+        if borrower.return_book(book_id):
             book.available=True
         self.save()
         return True
