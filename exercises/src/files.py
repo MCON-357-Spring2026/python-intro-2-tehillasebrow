@@ -14,6 +14,7 @@ Run with: python exercise_3_files_json.py
 import json
 import os
 
+from demo.demo import content, loaded_data
 
 # =============================================================================
 # EXERCISE 3.1: Writing to a File
@@ -39,7 +40,9 @@ Example:
 
 def write_lines(filepath: str, lines: list) -> None:
     # TODO: Implement this function
-    pass
+    with open(filepath,"w", encoding="utf-8") as f:
+        for line in lines:
+            f.write(line+ "\n")
 
 
 # =============================================================================
@@ -64,7 +67,12 @@ Example:
 def read_lines(filepath: str) -> list:
     # TODO: Implement this function
     # Hint: Use strip() on each line to remove newlines
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+        all_lines=f.readlines()
+        lines_fixed=[]
+        for line in all_lines:
+            lines_fixed.append(line.strip())
+        return lines_fixed
 
 
 # =============================================================================
@@ -91,7 +99,9 @@ Example:
 def append_line(filepath: str, line: str) -> None:
     # TODO: Implement this function
     # Hint: Use "a" mode for append
-    pass
+    with open(filepath, "a", encoding="utf-8" )as f:
+        f.write(line+ "\n")
+
 
 
 # =============================================================================
@@ -116,7 +126,9 @@ Example:
 def count_words(filepath: str) -> int:
     # TODO: Implement this function
     # Hint: Read the file, split on whitespace, count the parts
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+       contents= f.read()
+    return  len(contents.split())
 
 
 # =============================================================================
@@ -142,7 +154,9 @@ Example:
 
 def save_json(filepath: str, data: dict) -> None:
     # TODO: Implement this function
-    pass
+# Write to JSON file
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
 
 
 # =============================================================================
@@ -164,7 +178,9 @@ Example:
 
 def load_json(filepath: str) -> dict:
     # TODO: Implement this function
-    pass
+    with open(filepath, "r", encoding="utf-8") as f:
+     loadeddata = json.load(f)
+    return loadeddata
 
 
 # =============================================================================
@@ -190,8 +206,10 @@ Example:
 
 def update_json(filepath: str, **updates) -> None:
     # TODO: Implement this function
-    pass
-
+    jsonfile=load_json(filepath)
+    for key, value in updates.items():
+        jsonfile[key]=value
+    save_json(filepath,jsonfile)
 
 # =============================================================================
 # EXERCISE 3.8: Todo List Manager
@@ -223,38 +241,65 @@ Example:
     todo_list.get_pending()                # Returns [{"id": 2, "task": "Walk the dog", "done": False}]
 """
 
+
 class TodoList:
     def __init__(self, filepath: str):
         self.filepath = filepath
-        # TODO: Load existing todos from file, or initialize empty list
-        # Hint: Use try/except to handle file not existing
-        self.todos = []
+        try:
+            with open(self.filepath, "r", encoding="utf-8") as f:
+                self.todos = json.load(f)
+        except FileNotFoundError:
+            self.todos = []
 
     def _save(self) -> None:
         """Helper method to save todos to file."""
         # TODO: Save self.todos to self.filepath as JSON
-        pass
+        with open(self.filepath, "w", encoding="utf-8") as f:
+            json.dump(self.todos, f, indent=2)
+
+
 
     def _next_id(self) -> int:
         """Helper method to get the next available ID."""
         # TODO: Return max id + 1, or 1 if no todos exist
-        pass
+        if not self.todos:
+            return 1
+        else:
+            return max(todo["id"] for todo in self.todos)+1
+
 
     def add(self, task: str) -> int:
         # TODO: Create new todo, add to list, save, return id
-        pass
+         todoid=self._next_id()
+         todo={"id":todoid, "task":task,"done": False}
+         self.todos.append(todo)
+         self._save()
+         return todoid
 
     def complete(self, todo_id: int) -> bool:
         # TODO: Find todo by id, set done=True, save, return True
         # Return False if not found
-        pass
+        for todos in self.todos:
+            if todos["id"]==todo_id:
+                todos["done"]=True
+                self._save()
+                return True
+
+        return False
+
 
     def get_pending(self) -> list:
         # TODO: Return todos where done=False
-        pass
+        todo_list=[]
+        for todos in self.todos:
+            if todos["done"]==False:
+                todo_list.append(todos)
+        return todo_list
 
     def get_all(self) -> list:
         # TODO: Return all todos
-        pass
+
+        return self.todos
+
 
 
