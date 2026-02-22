@@ -294,8 +294,8 @@ class Library:
         """Save books and borrowers to JSON files."""
         # TODO: Save self.books to self.books_file
         # TODO: Save self.borrowers to self.borrowers_file
-        books_data = [book.to_dict() for book in self.books]
-        borrow_data=[borrower.to_dict() for borrower in self.borrowers]
+        books_data = [book.to_dict() for book in self.books.values()]
+        borrow_data=[borrower.to_dict() for borrower in self.borrowers.values()]
         # Hint: Convert Book/Borrower objects to dicts using to_dict()
         with open(self.books_file, "w", encoding="utf-8") as f:
             json.dump(books_data, f, indent=2)
@@ -379,7 +379,7 @@ class Library:
     def get_available_books(self) -> list:
         """Get list of all available books."""
         avail_list=[]
-        for book in self.books:
+        for book in self.books.values():
             if book.available:
                 avail_list.append(book)
         return avail_list
