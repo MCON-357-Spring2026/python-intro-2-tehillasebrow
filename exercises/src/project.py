@@ -158,12 +158,8 @@ class Book:
     @classmethod
     def from_dict(cls, data: dict) -> "Book":
         # TODO: Create and return a Book instance from dictionary
-        data.get("book_id")
-        data.get("title")
-        data.get("author")
-        data.get("genre")
-        data.get("available", True)
-        b=Book(data.get("book_id"),data.get("title"),data.get("author"),data.get("available"), data.get("genre") )
+
+        b=Book(data.get("book_id"),data.get("title"),data.get("author"),data.get("genre"), data.get("available"))
         return b
 
     def __str__(self) -> str:
